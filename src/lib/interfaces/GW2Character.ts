@@ -11,6 +11,7 @@ export interface Character {
     created: string
     deaths: number
     crafting: any[]
+    title: number
     backstory: string[]
     wvw_abilities: any[]
     build_tabs_unlocked: number
@@ -42,7 +43,7 @@ export interface Character {
   
   export interface Specialization {
     id?: number
-    traits: number | undefined[]
+    traits?: number[]
   }
   
   export interface Skills {

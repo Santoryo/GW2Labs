@@ -11,7 +11,7 @@ const config = {
             ? staticAdapter({ strict: false, fallback: 'index.html', pages: 'build_widget', assets: 'build_widget'  }) // Static site
             : nodeAdapter(), // Dynamic app
         prerender: {
-            entries: isStatic ? ['/widget'] : [], // Only prerender for static builds
+            entries: isStatic ? ['/widget', '/config'] : [], // Only prerender for static builds
         },
     }
 };

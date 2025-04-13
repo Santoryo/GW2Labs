@@ -1,8 +1,38 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
-@plugin "daisyui";
 
 html {
-    background-color: rgba(0,0,0,0);
+    background-color: rgba(0,0,0,0) !important;
+}
+
+.gradient-border {
+    position: relative;
+}
+
+.gradient-border::before {
+    content: "";
+    position: absolute;
+    top: -1.5px;
+    left: -1.5px;
+    right: -1.5px;
+    bottom: 2px;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(to bottom, red, transparent);
+}
+
+@keyframes walking-ants {
+    to {
+        stroke-dashoffset: -6; /* Moves the dashes */
+    }
+}
+
+.walking-ants {
+    stroke-dasharray: 4 2; /* Dash pattern: 4px dash, 2px gap */
+    stroke-dashoffset: 0; /* Initial offset */
+    animation: walking-ants 1s linear infinite; /* Infinite animation */
+    filter: drop-shadow(0 0 4px rgba(0, 0, 0, 1)) 
+        drop-shadow(0 0 4px rgba(0, 0, 0, 1));
 }

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { getStatIcon } from '$lib/enums/stats';
-	import itemstats from '$lib/assets/itemstats.json';
+	import itemstats from '$lib/constants/itemstats.json';
 	import type { Equipment, ItemDetails, SkinDetails } from '$lib/interfaces/GW2Items';
 
 	interface Props {
@@ -36,7 +36,7 @@
 </script>
 
 <div
-	class="relative flex w-full max-w-[290px] flex-row"
+	class="relative flex w-[290px] flex-row"
 	class:h-[138px]={(item == 'WeaponA1' && !equipment['WeaponA2']) ||
 		(item == 'WeaponB1' && !equipment['WeaponB2'])}
 >
@@ -57,7 +57,7 @@
 			/>
 			<div class="flex max-w-[235px] flex-col justify-start gap-0.5">
 				<div
-					class="text-bold overflow-hidden text-nowrap text-ellipsis {getRarityColor(
+					class="text-bold overflow-hidden h-[21px] text-nowrap text-ellipsis {getRarityColor(
 						itemsInfo[equipment[item].id].rarity
 					)}"
 				>

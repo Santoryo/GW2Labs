@@ -1,0 +1,1 @@
+export const scaleState = $state({scale: 1});
