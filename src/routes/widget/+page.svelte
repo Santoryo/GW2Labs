@@ -12,6 +12,8 @@
 	import Gw2Skill from '$lib/components/GW2_Skill.svelte';
 	import { scaleState } from '$lib/store/scale.svelte';
 	import { page } from '$app/state';
+	import { EquipmentSlotsLeft, EquipmentSlotsRight } from '$lib/enums/equipmentslots';
+	import { CharacterModel } from '$lib/models/character';
 
 	let isReady = $state(false);
 	let equipment: Record<string, Equipment> = $state({});
@@ -19,11 +21,11 @@
 	let itemsInfo: Record<any, ItemDetails> = $state({});
 	let skinsId: number[] = $state([]);
 	let skinsInfo: Record<any, SkinDetails> = $state({});
-	let character: Character = $state({} as Character);
 	let build: CharacterBuild = $state({} as CharacterBuild);
 	let channelId: number | null = $state(149905017);
 	let isOpen: boolean = $state(false);
 	let skills: Skill[] = $state({} as Skill[]);
+	let character = $state(new CharacterModel());
 
 	let title: string = $state('');
 
@@ -33,20 +35,6 @@
 
 	let widget: HTMLElement | null = $state(null);
 
-
-	let leftCol = [
-		'Helm',
-		'Shoulders',
-		'Coat',
-		'Gloves',
-		'Leggings',
-		'Boots',
-		'WeaponA1',
-		'WeaponA2',
-		'WeaponB1',
-		'WeaponB2'
-	];
-	let rightCol = ['Backpack', 'Amulet', 'Ring1', 'Ring2', 'Accessory1', 'Accessory2', 'Relic'];
 
 	onMount(async () => {
 	window.addEventListener('resize', () => {
@@ -63,12 +51,6 @@
 	}
 	else
 	{
-		page.url.searchParams.has('channelId') ? channelId = parseInt(page.url.searchParams.get('channelId') ?? '') : channelId = null;
-		if(!channelId)
-		{
-			console.log('No channelId provided');
-			return;
-		}
 		console.log('Twitch not authorized');
 	}
 
@@ -93,16 +75,17 @@
 	}
 
 	async function loadData() {
+		if(!isOpen) return;
 		if(!channelId) return;
 		const data = await fetch(`https://gw2.brelshaza.com/streamer/${channelId}`);
-		const json = await data.json();
-		character = json;
 
-		if(character.message)
-		{
-			console.log(character.message);
+		if (!data.ok) {
+			console.log('Error fetching data');
 			return;
 		}
+
+		const json = await data.json();
+		character = json;
 
 		skinsId = [];
 		itemsId = [];
@@ -137,8 +120,8 @@
 </script>
 
 <div class="flex w-[1920px] h-screen flex-col justify-center">
-	{#if isReady}
 	{#if isOpen}
+	{#if isReady}
 	{#key character}
 	<div class="p-0.5 py-[2px] w-fit h-fit rounded-xl ml-2 transform-gpu origin-left"
 		style="background-image: linear-gradient(to bottom, {ClassColors[character.profession as keyof typeof ClassColors]}, transparent); transform: scale({scaleState.scale});"
@@ -188,12 +171,12 @@
 			{#if activeTab == 'gear'}
 			<div class="relative z-10 flex flex-row justify-around gap-2">
 				<div class="flex flex-col gap-2.5">
-					{#each leftCol as item}
+					{#each Object.keys(EquipmentSlotsLeft) as item}
 						<Gw2Item {item} {equipment} {itemsInfo} {skinsInfo} {fashion} />
 					{/each}
 				</div>
 				<div class="flex flex-col gap-2.5">
-					{#each rightCol as item}
+					{#each Object.keys(EquipmentSlotsRight) as item}
 						<Gw2Item {item} {equipment} {itemsInfo} {skinsInfo} {fashion} />
 					{/each}
 				</div>
@@ -221,7 +204,7 @@
 	{/key}
 	{:else}
 	<div class="flex flex-col justify-center w-fit h-full">
-		<button class="ml-2 p-2 bg-[#09090A]/[99%] h-24 rounded-md" onclick={() => {isOpen = !isOpen; scaleWidget()}}>
+		<button class="ml-2 p-2 bg-[#09090A]/[99%] h-24 rounded-md" onclick={() => {isOpen = !isOpen; scaleWidget(); loadData();}}>
 			<img src={arrow} class="h-8" alt="Open button" />
 		</button>
 	</div>
