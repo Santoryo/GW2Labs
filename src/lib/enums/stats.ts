@@ -36,6 +36,7 @@ export const statsIcons: { [key in Stats]: string } = {
     [Stats.CritDamage]: ferocity,
 };
 
+
 export function getStatIcon(statName: string): string | undefined {
     const statKey = Stats[statName as keyof typeof Stats]; // Convert string to Stats enum
     return statsIcons[statKey]; // Access the icon if it exists

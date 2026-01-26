@@ -23,6 +23,10 @@ html {
     background: linear-gradient(to bottom, red, transparent);
 }
 
+@utility smooth {
+    transition: all 100ms ease-in-out;
+}
+
 @keyframes walking-ants {
     to {
         stroke-dashoffset: -6; /* Moves the dashes */

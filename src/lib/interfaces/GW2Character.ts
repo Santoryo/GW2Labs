@@ -1,31 +1,49 @@
-export interface Character {
-    name: string
-    race: string
-    gender: string
-    flags: any[]
-    profession: string
-    level: number
-    guild: string
-    age: number
-    last_modified: string
-    created: string
-    deaths: number
-    crafting: any[]
-    title: number
-    backstory: string[]
-    wvw_abilities: any[]
-    build_tabs_unlocked: number
-    active_build_tab: number
-    build_tabs: BuildTab[]
-    equipment_tabs_unlocked: number
-    active_equipment_tab: number
-    equipment: Equipment[]
-    equipment_tabs: EquipmentTab[]
-    recipes: number[]
-    training: any[]
-    bags: Bag[]
-    equipment_pvp: EquipmentPvp
-  }
+export type CharacterDTO = {
+    id: number;
+    userId: string;
+    name: string;
+    race: string;
+    elite: string;
+    profession: string;
+    gender: string;
+    level: number;
+    created: Date;
+    deaths: number;
+    age: number;
+    title: number;
+};
+
+export type EquipmentDTO = {
+    id: number;
+    characterId: number;
+    itemId: number;
+    slot: string;
+    skinId: number | null;
+    statsId: number | null;
+    binding: string | null;
+    dyes: number[] | null;
+    upgrades: number[] | null;
+    infusions: number[] | null;
+};
+
+export type SpecializationDTO = {
+    specId: number | null;
+    traits: number[] | null;
+};
+
+export type SkillsDTO = {
+    heal: number | null;
+    utilities: number[] | null;
+    elite: number | null;
+};
+
+export interface Character extends CharacterDTO {
+    equipment: EquipmentDTO[];
+    professionIcon: string;
+    specialization: SpecializationDTO[];
+    skills: SkillsDTO;
+}
+
   
   export interface BuildTab {
     tab: number

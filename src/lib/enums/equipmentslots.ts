@@ -5,18 +5,34 @@ export enum EquipmentSlotsLeft {
     Gloves = 'Gloves',
     Leggings = 'Leggings',
     Boots = 'Boots',
-    WeaponA1 = 'WeaponA1',
-    WeaponA2 = 'WeaponA2',
-    WeaponB1 = 'WeaponB1',
-    WeaponB2 = 'WeaponB2',
+}
+
+export enum EquipmentWeapon {
+    WeaponA1 = 'Main Hand Weapon',
+    WeaponA2 = 'Off Hand Weapon',
+    WeaponB1 = 'Main Hand Weapon',
+    WeaponB2 = 'Off Hand Weapon',
+}
+
+export enum EquipmentAquatic {
+    HelmAquatic = 'Aquatic Helm',
+    WeaponAquaticA = 'Aquatic Weapon',
+    WeaponAquaticB = 'Aquatic Weapon'
 }
 
 export enum EquipmentSlotsRight {
     Backpack = 'Backpack',
     Amulet = 'Amulet',
-    Ring1 = 'Ring1',
-    Ring2 = 'Ring2',
-    Accessory1 = 'Accessory1',
-    Accessory2 = 'Accessory2',
+    Ring1 = 'Ring',
+    Ring2 = 'Ring',
+    Accessory1 = 'Accessory',
+    Accessory2 = 'Accessory',
     Relic = 'Relic',
+}
+
+export const EquipmentSlots = {
+...EquipmentSlotsLeft,
+...EquipmentSlotsRight,
+...EquipmentWeapon,
+...EquipmentAquatic
 }

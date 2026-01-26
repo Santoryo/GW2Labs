@@ -12,7 +12,7 @@ const config = {
             : nodeAdapter(), // Dynamic app
         prerender: {
             entries: isStatic ? ['/widget', '/config'] : [], // Only prerender for static builds
-        },
+        }
     }
 };
 

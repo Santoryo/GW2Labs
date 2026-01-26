@@ -49,6 +49,9 @@ import virtuosoRender from '$lib/assets/class_specs_renders/virtuoso.webp';
 import harbingerRender from '$lib/assets/class_specs_renders/harbinger.webp';
 import vindicatorRender from '$lib/assets/class_specs_renders/vindicator.webp';
 
+import antiquaryRender from '$lib/assets/class_specs_renders/antiquary.jpg';
+import luminaryRender from '$lib/assets/class_specs_renders/luminary.jpg';
+
 
 
 export enum Classes {
@@ -124,4 +127,6 @@ export const ClassRenders = {
     virtuoso: virtuosoRender,
     harbinger: harbingerRender,
     vindicator: vindicatorRender,
+    antiquary: antiquaryRender,
+    luminary: luminaryRender
   } as const;

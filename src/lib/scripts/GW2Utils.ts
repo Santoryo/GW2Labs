@@ -57,32 +57,6 @@ export function getSpecIdFromBuild(spec: BuildTab): string | null {
     return specId.toString();
 }
 
-export function getCharacterIcon(character: Character): string {
-    const specId = getSpecIdFromBuild(character.build_tabs[character.active_build_tab - 1]);
-    if(specId === null)
-    {
-        return ClassIcons[character.profession as keyof typeof ClassIcons];
-    }
-    const specData = specs[specId as keyof typeof specs];
-    if (specData && specData.icon) {
-        return specData.profession_icon_big;
-    }
-    return "";
-}
-
-export function getCharacterClass(character: Character): string {
-    const specId = getSpecIdFromBuild(character.build_tabs[character.active_build_tab - 1]);
-    if(specId === null)
-    {
-        return character.profession;
-    }
-    const specData = specs[specId as keyof typeof specs];
-    if (specData && specData.icon) {
-        return specData.name;
-    }
-    return "";
-}
-
 export async function getCharacterTitle(titleId: number): Promise<string> {
     const url = `https://api.guildwars2.com/v2/titles/${titleId}?lang=en`;
     const results = await fetch(url);
@@ -95,12 +69,11 @@ export async function getCharacterTitle(titleId: number): Promise<string> {
 
 export async function getBuildInfo(character: Character)
 {
-    const buildTab = character.build_tabs[character.active_build_tab - 1];
-    const specIds = buildTab.build.specializations.map((spec) => spec.id);
+    const specIds = character.specialization.map((spec) => spec.specId);
     let traitIds = [];
     let activeTraits = [];
 
-    for(let spec of buildTab.build.specializations)
+    for(let spec of character.specialization)
     {
         if(spec.traits)
         {
@@ -160,7 +133,7 @@ export async function getBuildInfo(character: Character)
             };
         });
 
-        if(spec.elite)
+        if(spec.elite && spec.weapon_trait)
         {
             spec.weapon_trait = spec.weapon_trait ? traitsById[spec.weapon_trait] : null;
             spec.weapon_trait = {
@@ -175,8 +148,8 @@ export async function getBuildInfo(character: Character)
     const buildInfo = {
         profession: character.profession,
         specializations: specData,
-        skills: buildTab.build.skills,
-        aquatic_skills: buildTab.build.aquatic_skills
+        skills: character.skills,
+        aquatic_skills: character.skills
     };
     return buildInfo;
 
@@ -184,11 +157,9 @@ export async function getBuildInfo(character: Character)
 
 export async function getCharacterSkills(character: Character): Promise<Skill[]>
 {
-    const buildTab = character.build_tabs[character.active_build_tab - 1];
+    const buildTab = character.skills;
     const skillIds = [
-        buildTab.build.skills.heal,
-        ...buildTab.build.skills.utilities,
-        buildTab.build.skills.elite
+        buildTab.heal, ...buildTab.utilities, buildTab.elite
     ];
 
     const skillsResults = await fetch(`https://api.guildwars2.com/v2/skills?ids=${skillIds.join(',')}&lang=en`);
